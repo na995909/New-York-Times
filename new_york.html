@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>New York Times</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+  <div class="container">
+  <div class="panel panel-default" style="background: blue; color:white; font-size:50px; height: 150px;padding: 20px; border: 2px solid black;">
+      <div class="panel-body">
+        <h1 class="name_box" ><i class="fa fa-newspaper-o">&nbsp;New York Times Search</i></h1>
+      </div>
+    </div>
+   
+    <div class="panel panel-default">
+      <div class="panel-heading" style="background: #1f2d44; padding: 20px;">
+         <i class="fa fa-list-alt" style="font-size:20px; color: white; font-weight: bold;">&nbsp;Search Parameters</i>    
+      </div>
+      <div class="panel-body">
+
+          
+
+          <div class="row">
+            <div class="col-md-12 boxheader">
+             <div> Search Term</div>
+                 <input type="text" id="search_term" name="" style="width: 500px;"><br><br>
+              </div>
+            </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              Number of Records to Retrieve<br>
+              <input type="number" name="" style="width: 500px;"><br><br>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              Start Year (Optional):<br>
+              <input id="start_year" type="text" name="" style="width: 500px;"><br><br>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              End Year (Optional):<br>
+              <input type="text" name="" style="width: 500px;"><br><br>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <button style="font-size:18px" class="btn-search">search<i class="fa fa-search"></i></button>
+            </div>
+
+              <div class="col-md-2">
+                <button style="font-size:18px">clear results<i class="fa fa-trash"></i></button>
+              </div>
+              <div class="col-md-8">
+              </div>
+
+          </div>
+        </div>
+      </div>
+     </div>
+     
+
+     <!--2nd container with top articles-->
+    <div class="container">
+        <div class="panel panel-default">
+          <div class="panel-heading" style="background: #1f2d44; padding: 20px;">
+            <i class="fa fa-table" style="color:white;font-weight: bold; font-size: 20px;">&nbsp;Top Articles</i>
+          </div>
+          <div class="panel-body">
+            
+            <div class="row">
+              <div class="col-md-12">
+              </div>
+          </div>
+        </div>
+            
+    </div>
+    </div>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(".btn-search").on("click", function() {
+        var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+        var search_term = $('#search_term').val().trim();
+        var start_date = $('#start_year').val().trim();
+        
+
+        var end_date;
+
+        url += '?' + $.param({
+            'api-key': "f3eeb3234c5843a79657f89ec0ef9774",
+            'q': search_term//,
+            //'begin_date': start_date,
+            //'end_date': end_date
+        });
+
+        if(start_date.length > 0){
+          url = url + "&" + $.param({'begin_date': parseInt(start_date) + '0101'});
+        }
+        alert(url);
+        $.ajax({
+            url: url,
+            method: 'GET',
+        }).done(function(result) {
+            console.log(result);
+        }).fail(function(err) {
+            throw err;
+        });
+    });
+
+
+  </script>
+    
+      </body>
+      </html>
